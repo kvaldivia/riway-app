@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="splashscreen_app_title">56dp</dimen>
+    <dimen name="splashscreen_app_phonetic">21dp</dimen>
+    <dimen name="splashscreen_app_meaning">21dp</dimen>
+    <dimen name="font_size_upcoming_alarm_time">48sp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="alarm_item_time_size">28dp</dimen>
+</resources>

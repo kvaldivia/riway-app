@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Riway</string>
+    <string name="str_app_title">Riway</string>
+    <string name="app_title_meaning">v.tr. to wake up</string>
+    <string name="app_title_phonetical">|ree-woo-eye|</string>
+    <string name="tv_upcoming_subtitle">Upcomming...</string>
+    <string name="action_name_alarms_list">My alarms</string>
+</resources>
