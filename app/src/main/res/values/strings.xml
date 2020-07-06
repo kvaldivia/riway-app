@@ -5,4 +5,5 @@
     <string name="app_title_phonetical">|ree-woo-eye|</string>
     <string name="tv_upcoming_subtitle">Upcomming...</string>
     <string name="action_name_alarms_list">My alarms</string>
+    <string name="str_authentication_key">auth</string>
 </resources>

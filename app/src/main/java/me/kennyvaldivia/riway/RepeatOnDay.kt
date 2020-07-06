@@ -134,6 +134,7 @@ class RepeatOnDay : View {
         val contentWidth = width - paddingLeft - paddingRight
         val contentHeight = height - paddingTop - paddingBottom
 
+/*
         exampleString?.let {
             // Draw the text.
             canvas.drawText(
@@ -143,6 +144,7 @@ class RepeatOnDay : View {
                 textPaint
             )
         }
+*/
 
         // Draw the example drawable on top of the text.
         exampleDrawable?.let {
