@@ -5,4 +5,8 @@
     <string name="app_title_phonetical">|ree-woo-eye|</string>
     <string name="tv_upcoming_subtitle">Upcomming...</string>
     <string name="action_name_alarms_list">My alarms</string>
+    <string name="str_authentication_key">auth</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="help_text_new_alarm">Add a new alarm</string>
 </resources>
