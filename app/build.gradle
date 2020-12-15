@@ -1,20 +1,42 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'androidx.navigation.safeargs.kotlin'
+apply plugin: 'dagger.hilt.android.plugin'
 
 android {
     compileSdkVersion 30
 
     defaultConfig {
         applicationId "me.kennyvaldivia.riway"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         vectorDrawables.useSupportLibrary = true
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "me.kennyvaldivia.riway.utilities.MainTestRunner"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments["dagger.hilt.disableModulesHaveInstallInCheck"] = "true"
+                arguments["room.incremental"] = "true"
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+
+        // Enable Coroutines and Flow APIs
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.FlowPreview"
     }
 
     buildTypes {
@@ -37,7 +59,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
-    def nav_version = "2.3.0"
+    def nav_version = "2.3.2"
 
     // Kotlin
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
@@ -48,4 +70,45 @@ dependencies {
 
     // Testing Navigation
     androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+
+    def room_version = "2.2.5"
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation "androidx.room:room-ktx:$room_version"
+
+    // optional - RxJava support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+
+    implementation "com.google.dagger:hilt-android:2.28.3-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.28.3-alpha"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:2.28.3-alpha"
+    kapt "com.google.dagger:hilt-android-compiler:2.28.3-alpha"
+    compileOnly 'com.squareup.inject:assisted-inject-annotations-dagger2:0.6.0'
+    kapt 'com.squareup.inject:assisted-inject-processor-dagger2:0.6.0'
+
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$rootProject.coroutinesVersion"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$rootProject.coroutinesVersion"
+
+    implementation "androidx.work:work-runtime-ktx:$rootProject.workVersion"
+
+    // Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+    kaptAndroidTest "com.google.dagger:hilt-android-compiler:$rootProject.hiltVersion"
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test:rules:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
+    androidTestImplementation "com.google.dagger:hilt-android-testing:$rootProject.hiltVersion"
+
+    debugImplementation 'com.facebook.stetho:stetho:1.5.1'
+
 }

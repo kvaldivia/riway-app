@@ -21,4 +21,14 @@
         android:name="me.kennyvaldivia.riway.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/upcoming_alarm_fragment"
+        android:name="me.kennyvaldivia.riway.alarm.UpcomingAlarmFragment"
+        android:label="Alarm summary"
+        tools:layout="@layout/fragment_upcoming_alarm">
+
+        <argument
+            android:name="alarmId"
+            app:argType="string" />
+    </fragment>
 </navigation>

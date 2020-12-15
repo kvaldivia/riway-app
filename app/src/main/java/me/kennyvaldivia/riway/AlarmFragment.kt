@@ -8,11 +8,13 @@ import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import dagger.hilt.android.AndroidEntryPoint
 import me.kennyvaldivia.riway.dummy.DummyContent
 
 /**
  * A fragment representing a list of Items.
  */
+@AndroidEntryPoint
 class AlarmFragment : Fragment() {
 
     private var columnCount = 1
