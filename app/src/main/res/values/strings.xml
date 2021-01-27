@@ -9,4 +9,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="help_text_new_alarm">Add a new alarm</string>
+    <string name="title_alarm_list">Alarms</string>
+    <string name="title_alarm_detail">Alarm Detail</string>
+    <string name="snoozed_alarm_successfully">Snoozed!</string>
 </resources>

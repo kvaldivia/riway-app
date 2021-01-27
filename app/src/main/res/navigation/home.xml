@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/upcoming_alarm_fragment"
+    android:id="@+id/home">
+        <activity
+            android:id="@+id/alarmListActivity"
+            android:name="me.kennyvaldivia.riway.alarm.AlarmListActivity"
+            android:label="activity_alarm_list"
+            tools:layout="@layout/activity_alarm_list" />
+        <activity
+            android:id="@+id/alarmDetailActivity"
+            android:name="me.kennyvaldivia.riway.alarm.AlarmDetailActivity"
+            android:label="activity_alarm_detail"
+            tools:layout="@layout/activity_alarm_detail" />
+        <fragment
+            android:id="@+id/upcoming_alarm_fragment"
+            android:name="me.kennyvaldivia.riway.alarm.UpcomingAlarmFragment"
+            android:label="Alarm summary"
+            tools:layout="@layout/fragment_upcoming_alarm">
+            <action
+                android:id="@+id/action_upcoming_alarm_fragment_to_alarmListActivity"
+                app:destination="@id/alarmListActivity" />
+            <action
+                android:id="@+id/action_upcoming_alarm_fragment_to_alarmDetailActivity"
+                app:destination="@id/alarmDetailActivity" />
+        </fragment>
+</navigation>

@@ -33,6 +33,10 @@ data class Alarm (
     @ColumnInfo(name = "sunday") var sunday: Boolean
 ) {
 
+    var time: String?
+        get() = "${hour}:${minute}"
+        set(value) { return }
+
     fun activeDays(): Map<DayNames, Boolean> {
         return mapOf(
             DayNames.MONDAY to this.monday,

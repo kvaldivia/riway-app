@@ -2,33 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navigation.xml"
-    app:startDestination="@id/splashScreenActivity">
+    android:id="@+id/navigation"
+    app:startDestination="@id/splash_screen">
 
-    <activity
-        android:id="@+id/splashScreenActivity"
-        android:name="me.kennyvaldivia.riway.SplashScreenActivity"
-        android:label="activity_splash_screen"
-        tools:layout="@layout/activity_splash_screen" >
+    <navigation android:id="@+id/splash_screen"
+        app:startDestination="@id/splashScreenActivity">
+        <activity
+            android:id="@+id/splashScreenActivity"
+            android:name="me.kennyvaldivia.riway.SplashScreenActivity"
+            android:label="activity_splash_screen"
+            tools:layout="@layout/activity_splash_screen" />
+        <activity
+            android:id="@+id/mainActivity"
+            android:name="me.kennyvaldivia.riway.MainActivity"
+            android:label="activity_main"
+            tools:layout="@layout/activity_main" />
         <action
-            android:id="@+id/nav_splash_to_main"
-            app:destination="@id/mainActivity"
-            app:enterAnim="@anim/fragment_fade_enter"
-            app:exitAnim="@anim/fragment_fade_exit" />
-    </activity>
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="me.kennyvaldivia.riway.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
-    <fragment
-        android:id="@+id/upcoming_alarm_fragment"
-        android:name="me.kennyvaldivia.riway.alarm.UpcomingAlarmFragment"
-        android:label="Alarm summary"
-        tools:layout="@layout/fragment_upcoming_alarm">
-
-        <argument
-            android:name="alarmId"
-            app:argType="string" />
-    </fragment>
+            android:id="@+id/action_global_upcoming_alarm_fragment"
+            app:destination="@id/home" />
+    </navigation>
 </navigation>

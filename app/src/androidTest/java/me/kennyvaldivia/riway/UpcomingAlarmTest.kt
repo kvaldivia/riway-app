@@ -1,19 +1,13 @@
 package me.kennyvaldivia.riway
 
-import android.app.PendingIntent.getActivity
 import android.content.Context
-import android.content.Intent
-import android.icu.util.Calendar
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import androidx.lifecycle.observe
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -22,12 +16,8 @@ import me.kennyvaldivia.riway.alarm.AlarmDao
 import me.kennyvaldivia.riway.alarm.UpcomingAlarmContract
 import org.junit.*
 import org.junit.rules.RuleChain
-import org.junit.rules.TestRule
-import org.junit.runner.RunWith
 import java.io.IOException
-import java.sql.Time
 import java.time.LocalTime
-import java.util.*
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -73,7 +63,7 @@ class UpcomingAlarmTest {
         alarmDao.insert(alarm)
         val activity = activityRule.activity
         val fm = activity.supportFragmentManager
-        val frag = fm.findFragmentById(R.id.fragment_upcoming_alarm) as UpcomingAlarmContract.View
+        val frag = fm.findFragmentById(R.id.fragment_main_content) as UpcomingAlarmContract.View
         val presenter = frag.getPresenter()
         val upcomingAlarmLD = alarmDao.getUpcomingAlarm()
         val alarmHour = upcomingAlarmLD!!.value?.hour.toString().padStart(2, '0')

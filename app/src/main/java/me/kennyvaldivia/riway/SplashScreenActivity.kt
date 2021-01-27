@@ -12,6 +12,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.findNavController
+import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import me.kennyvaldivia.riway.auth.AuthenticationState
 

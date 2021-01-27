@@ -1,35 +1,44 @@
 package me.kennyvaldivia.riway.alarm
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
-import com.squareup.inject.assisted.Assisted
-import com.squareup.inject.assisted.AssistedInject
-import dagger.Provides
+import androidx.lifecycle.*
+import javax.inject.Inject
 
 /**
  * The ViewModel used in [UpcomingAlarmFragment]
  */
-class AlarmSummaryViewModel @AssistedInject constructor(
-    alarmRepository: AlarmRepository,
-    @Assisted private val alarmId: String
-): ViewModel() {
-    lateinit  var alarm: Alarm
+class UpcomingAlarmViewModel @Inject constructor(var alarmRepository: AlarmRepository): ViewModel(), UpcomingAlarmContract {
 
-    @AssistedInject.Factory
-    interface AssistedFactory {
-        fun create(alarmId: String): AlarmSummaryViewModel
+    enum class State {
+        UPCOMING_ALARM_AVAILABLE,
+        NO_UPCOMING_ALARMS
     }
 
-    companion object {
 
-        fun provideFactory(
-            assistedFactory: AssistedFactory,
-            alarmId: String
-        ): ViewModelProvider.Factory = object : ViewModelProvider.Factory {
-            @Suppress("UNCHECKED_CAST")
-            override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                return assistedFactory.create(alarmId) as T
+    private lateinit var currentAlarm: MutableLiveData<Alarm?>
+
+    val alarmTime = MutableLiveData<String?>()
+    val state = MutableLiveData<State>(State.NO_UPCOMING_ALARMS)
+
+    fun bind(owner: LifecycleOwner) {
+        currentAlarm =
+            MutableLiveData<Alarm?>().also {
+                it.value = alarmRepository.getUpcomingAlarm().value
             }
-        }
+        currentAlarm.observe(owner, Observer {
+            if (it != null) {
+                alarmTime.value = it.time
+                state.value = State.UPCOMING_ALARM_AVAILABLE
+            } else {
+                state.value = State.NO_UPCOMING_ALARMS
+            }
+        })
+    }
+
+    override fun snoozeAlarm(): LiveData<Int> {
+        val alarm = currentAlarm.value!!.copy()
+        alarm.isActive = false
+        return MutableLiveData<Int>(alarmRepository.update(alarm).also {
+            currentAlarm.value = alarmRepository.getUpcomingAlarm().value
+        })
     }
 }

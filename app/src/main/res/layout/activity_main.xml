@@ -2,20 +2,34 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <androidx.appcompat.widget.ActionMenuView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"/>
 
-    <fragment
-        class="me.kennyvaldivia.riway.alarm.UpcomingAlarmFragment"
-        android:id="@+id/fragment_upcoming_alarm"
-        tools:layout="@layout/fragment_upcoming_alarm"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fragment_main_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
+        app:navGraph="@navigation/home"
+        app:defaultNavHost="true"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+    />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_alarm_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:contentDescription="create a new alarm"
+        android:focusable="true"
+        android:background="@null"
+        android:onClick="onSuggestedActionClick"
+        app:backgroundTint="@color/colorPrimary"
+        app:layout_anchor="@+id/fragment_main_content"
+        app:layout_anchorGravity="end|bottom"
+        app:srcCompat="@drawable/ic_baseline_add_24" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
