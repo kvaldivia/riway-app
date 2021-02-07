@@ -13,23 +13,49 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/AppTheme.ThemeOverlay.ActionBar"
+        >
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
+            app:title="5:00af"
+            app:titleEnabled="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:toolbarId="@+id/toolbar">
 
-            <androidx.appcompat.widget.Toolbar
+            <Toolbar
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
+                android:foregroundTint="@color/colorForeground"
+                android:titleTextColor="@color/colorForeground"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="12sp"
+                    android:paddingBottom="12sp"
+                    android:textSize="36sp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:theme="@style/AppTheme"
+                    tools:text="05:00 a.m."
+                    />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -39,16 +65,211 @@
         android:id="@+id/alarm_detail_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/ll_alarm_properties"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="36sp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_repeat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:paddingTop="12sp"
+                    android:paddingBottom="12sp"
+                    android:text="@string/label_alarm_property_repeat"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_repeat_value"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_repeat_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:paddingStart="12sp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Sun. Mon. Tue. Wed. Thu. Fri. Sat." />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_volume_level"
+                    android:layout_width="0sp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:text="@string/label_alarm_property_volume_level"
+                    android:textSize="18sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_min="160sp" />
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/tv_volume_value"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:paddingStart="12sp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:stepSize="1.0"
+                    android:theme="@style/AppTheme"
+                    android:value="2.0"
+                    android:valueFrom="1.0"
+                    android:valueTo="5.0"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_volume_level"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintWidth_min="200sp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_song_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:text="@string/label_alarm_property_song_name"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_song_value"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_song_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:paddingStart="12sp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Sun. Mon. Tue. Wed. Thu. Fri. Sat." />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_vibrate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:text="@string/label_alarm_property_vibrate"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_vibrate_value"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_vibrate_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:paddingStart="12sp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Sun. Mon. Tue. Wed. Thu. Fri. Sat." />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_challenge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="12dp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:text="@string/label_alarm_property_challenge"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_challenge_value"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_challenge_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:paddingStart="12sp"
+                    android:paddingTop="12sp"
+                    android:paddingEnd="12sp"
+                    android:paddingBottom="12sp"
+                    android:textAlignment="center"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="Sun. Mon. Tue. Wed. Thu. Fri. Sat." />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_snooze_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|start"
         android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
+        style="@style/AppTheme.Widget.Design.FloatingActionButton"
         app:layout_anchor="@+id/alarm_detail_container"
         app:layout_anchorGravity="top|end"
-        app:srcCompat="@android:drawable/stat_notify_chat" />
+        app:srcCompat="@drawable/ic_alarm_off_48px" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
+        style="@style/AppTheme.Widget.Design.FloatingActionButton"
+        app:layout_anchor="@+id/alarm_detail_container"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/ic_check_filled_48dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

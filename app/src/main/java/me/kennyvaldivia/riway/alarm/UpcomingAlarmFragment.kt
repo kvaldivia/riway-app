@@ -112,7 +112,7 @@ class UpcomingAlarmFragment : Fragment(), BaseView {
     private fun createAlarm() {
         val ctrl = findNavController()
         ctrl.navigate(
-            UpcomingAlarmFragmentDirections.actionUpcomingAlarmFragmentToAlarmDetailActivity()
+            UpcomingAlarmFragmentDirections.actionUpcomingAlarmFragmentToAlarmDetailActivity(1)
         )
     }
 }

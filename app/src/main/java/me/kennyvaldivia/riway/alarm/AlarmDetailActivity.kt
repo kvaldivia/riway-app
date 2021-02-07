@@ -4,9 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
 import android.view.MenuItem
+import android.widget.Toolbar
+import androidx.activity.viewModels
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.Observer
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_alarm_detail.*
 import me.kennyvaldivia.riway.R
+import javax.inject.Inject
 
 /**
  * An activity representing a single Alarm detail screen. This
@@ -14,46 +20,80 @@ import me.kennyvaldivia.riway.R
  * item details are presented side-by-side with a list of items
  * in a [AlarmListActivity].
  */
-class AlarmDetailActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class AlarmDetailActivity : FragmentActivity() {
+
+    @Inject
+    lateinit var factory: AlarmDetailsViewModel.Factory
+
+    private val alarmId: Int by lazy {
+        intent.extras!!.get("alarmId") as Int
+    }
+
+    private val viewModel: AlarmDetailsViewModel by viewModels {
+        AlarmDetailsViewModel.provideFactory(factory, alarmId)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_alarm_detail)
-        setSupportActionBar(findViewById(R.id.detail_toolbar))
-
-        findViewById<FloatingActionButton>(R.id.fab).setOnClickListener { view ->
+        setActionBar(findViewById(R.id.detail_toolbar))
+        findViewById<FloatingActionButton>(R.id.fab_create_alarm).setOnClickListener { view ->
+            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+        findViewById<FloatingActionButton>(R.id.fab_snooze_alarm).setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
 
         // Show the Up button in the action bar.
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        viewModel.bind(this)
+    }
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don"t need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            val fragment = AlarmDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putString(
-                        AlarmDetailFragment.ARG_ITEM_ID,
-                        intent.getStringExtra(AlarmDetailFragment.ARG_ITEM_ID)
-                    )
-                }
-            }
+    private fun shouldCreateAlarm() {
+        fab_snooze_alarm.hide()
+        fab_create_alarm.show()
+    }
 
-            supportFragmentManager.beginTransaction()
-                .add(R.id.alarm_detail_container, fragment)
-                .commit()
-        }
+    private fun shouldSnoozeAlarm() {
+        fab_create_alarm.hide()
+        fab_snooze_alarm.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.alarmCreated.observe(this, Observer {
+            if (it) shouldSnoozeAlarm()
+            else shouldCreateAlarm()
+        })
+        viewModel.alarmTime.observe(this, Observer {
+            tv_time.text = it
+        })
+        viewModel.alarmVolume.observe(this, Observer {
+            tv_volume_value.value = it.toFloat()
+        })
+        viewModel.alarmSong.observe(this, Observer {
+            // TODO("Adapter for song URI")
+            tv_song_value.text = it
+        })
+        viewModel.alarmIsActive.observe(this, Observer {
+        })
+        viewModel.alarmVibrate.observe(this, Observer {
+            tv_vibrate_value.text = it.toString()
+        })
+        viewModel.alarmDays.observe(this, Observer {
+            var days: String = ""
+            // TODO: move this formmatter into a utils maybe
+            it.forEach { entry -> days += entry.key.toString().slice(0..2) + ". " }
+            tv_repeat_value.text = days.trim()
+        })
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.save()
     }
 
     override fun onOptionsItemSelected(item: MenuItem) =

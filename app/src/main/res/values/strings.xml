@@ -12,4 +12,9 @@
     <string name="title_alarm_list">Alarms</string>
     <string name="title_alarm_detail">Alarm Detail</string>
     <string name="snoozed_alarm_successfully">Snoozed!</string>
+    <string name="label_alarm_property_repeat">Repeat</string>
+    <string name="label_alarm_property_volume_level">Volume</string>
+    <string name="label_alarm_property_song_name">Song</string>
+    <string name="label_alarm_property_vibrate">Vibrate</string>
+    <string name="label_alarm_property_challenge">Challenge</string>
 </resources>

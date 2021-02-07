@@ -24,6 +24,13 @@
                 app:destination="@id/alarmListActivity" />
             <action
                 android:id="@+id/action_upcoming_alarm_fragment_to_alarmDetailActivity"
-                app:destination="@id/alarmDetailActivity" />
+                app:destination="@id/alarmDetailActivity" >
+
+                <argument
+                    android:name="alarmId"
+                    app:argType="integer"
+                    android:defaultValue="0"
+                    />
+            </action>
         </fragment>
 </navigation>

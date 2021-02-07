@@ -3,6 +3,7 @@ package me.kennyvaldivia.riway.alarm
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.room.*
+import io.reactivex.Completable
 import io.reactivex.Flowable
 
 @Dao
@@ -14,16 +15,16 @@ interface AlarmDao {
     fun loadAllByIds(ids: List<Int>): LiveData<List<Alarm?>?>
 
     @Query( "select * from alarm where id=:id")
-    fun get(id: String): LiveData<Alarm?>
+    fun get(id: Int): LiveData<Alarm?>
 
     @Query("select * from alarm limit 1")
     fun getUpcomingAlarm(): LiveData<Alarm?>
 
     @Insert(entity = Alarm::class, onConflict = OnConflictStrategy.ABORT)
-    fun create(alarm: Alarm)
+    suspend fun create(alarm: Alarm)
 
     @Insert
-    fun insertAll(vararg alarms: Alarm)
+    suspend fun insertAll(vararg alarms: Alarm)
 
     @Update
     fun update(alarm: Alarm): Int
