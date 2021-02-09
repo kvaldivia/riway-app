@@ -2,10 +2,12 @@ package me.kennyvaldivia.riway.alarm
 
 import androidx.lifecycle.*
 import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * The ViewModel used in [UpcomingAlarmFragment]
  */
+@Singleton
 class UpcomingAlarmViewModel @Inject constructor(var alarmRepository: AlarmRepository): ViewModel(), UpcomingAlarmContract {
 
     enum class State {
@@ -13,17 +15,15 @@ class UpcomingAlarmViewModel @Inject constructor(var alarmRepository: AlarmRepos
         NO_UPCOMING_ALARMS
     }
 
-
-    private lateinit var currentAlarm: MutableLiveData<Alarm?>
+    private val currentAlarm: MutableLiveData<Alarm?> = MutableLiveData<Alarm?>(null)
 
     val alarmTime = MutableLiveData<String?>()
     val state = MutableLiveData<State>(State.NO_UPCOMING_ALARMS)
 
     fun bind(owner: LifecycleOwner) {
-        currentAlarm =
-            MutableLiveData<Alarm?>().also {
-                it.value = alarmRepository.getUpcomingAlarm().value
-            }
+        alarmRepository.getUpcomingAlarm().observe(owner, Observer {
+            MutableLiveData<Alarm?>(it).also { alarm -> currentAlarm.value = alarm.value }
+        })
         currentAlarm.observe(owner, Observer {
             if (it != null) {
                 alarmTime.value = it.time
