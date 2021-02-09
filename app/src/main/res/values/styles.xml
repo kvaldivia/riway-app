@@ -10,6 +10,7 @@
         <item name="android:background">@android:color/white</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@android:color/white</item>
     </style>
     <style name="Widget.AppTheme.ActionBar" parent="Widget.AppCompat.Light.ActionBar.Solid">
         <!-- action bar background - without android prefix -->

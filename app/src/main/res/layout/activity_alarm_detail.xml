@@ -32,9 +32,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
-                android:foregroundTint="@color/colorForeground"
-                android:titleTextColor="@color/colorForeground"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+                android:theme="@style/AppTheme.NoActionBar"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -42,7 +40,7 @@
 
                 <TextView
                     android:id="@+id/tv_time"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingTop="12sp"
                     android:paddingBottom="12sp"

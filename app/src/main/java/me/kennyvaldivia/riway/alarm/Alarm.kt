@@ -1,5 +1,6 @@
 package me.kennyvaldivia.riway.alarm
 
+import android.text.format.DateFormat
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
@@ -35,8 +36,11 @@ data class Alarm(
 
     var time: String?
         get() {
+            // TODO: replace with android's date formatting
             if (hour != null && minute != null) {
-                return "${hour}:${minute}"
+                val hourString = hour.toString().padStart(2, '0')
+                val minuteString = minute.toString().padStart(2, '0')
+                return "${hourString}:${minuteString}"
             }
             return "--:--"
         }
