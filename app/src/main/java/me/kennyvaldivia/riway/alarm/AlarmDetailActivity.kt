@@ -26,8 +26,8 @@ class AlarmDetailActivity : FragmentActivity() {
     @Inject
     lateinit var factory: AlarmDetailsViewModel.Factory
 
-    private val alarmId: Int by lazy {
-        intent.extras!!.get("alarmId") as Int
+    private val alarmId: Long by lazy {
+        intent.extras!!.get("alarmId") as Long
     }
 
     private val viewModel: AlarmDetailsViewModel by viewModels {
@@ -39,10 +39,17 @@ class AlarmDetailActivity : FragmentActivity() {
         setContentView(R.layout.activity_alarm_detail)
         setActionBar(findViewById(R.id.detail_toolbar))
         findViewById<FloatingActionButton>(R.id.fab_create_alarm).setOnClickListener { view ->
+            viewModel.save()
             Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
         findViewById<FloatingActionButton>(R.id.fab_snooze_alarm).setOnClickListener { view ->
+            viewModel.snooze()
+            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show()
+        }
+        findViewById<FloatingActionButton>(R.id.fab_unsnooze_alarm).setOnClickListener { view ->
+            viewModel.unsnooze()
             Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }

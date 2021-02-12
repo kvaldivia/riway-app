@@ -7,11 +7,10 @@ import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
 import java.util.*
-import kotlin.time.hours
 
 class AlarmDetailsViewModel @AssistedInject constructor(
     var alarmRepository: AlarmRepository,
-    @Assisted alarmId: Int
+    @Assisted alarmId: Long
 ) : ViewModel() {
 
     private lateinit var owner: LifecycleOwner
@@ -73,16 +72,16 @@ class AlarmDetailsViewModel @AssistedInject constructor(
         alarm.value = newInstance
     }
 
-    fun setAlarmActive(active: Boolean) {
-        val newInstance = alarm.value!!.copy()
-        newInstance.isActive = active
-        alarm.value = newInstance
+    fun snooze() {
+        alarm.value!!.isSnoozed = false
+    }
+
+    fun activate() {
+        alarm.value!!.isActive = false
     }
 
     fun setAlarmVibration(active: Boolean) {
-        val newInstance = alarm.value!!.copy()
-        newInstance.shouldVibrate = active
-        alarm.value = newInstance
+        alarm.value!!.shouldVibrate = active
     }
 
     fun setAlarmDays(days: Map<Alarm.DayNames, Boolean>) {
@@ -92,25 +91,34 @@ class AlarmDetailsViewModel @AssistedInject constructor(
     }
 
     fun save() {
+        val alarmInstance = alarm.value!!
+        Log.d("saving alarm", "Alarm id: ${alarm.value!!.alarmId}")
         viewModelScope.launch {
-            val alarmInstance = alarm.value!!
             if (alarmInstance.alarmId > 0) {
                 alarmRepository.update(alarmInstance)
             } else {
-                    alarmRepository.create(alarmInstance)
+                val newId = alarmRepository.create(alarmInstance)
+                alarmRepository.getAlarm(newId).observe(owner, Observer {
+                    alarm.value = it
+                })
             }
+            Log.d("saving alarm", "Alarm id: ${alarmInstance.alarmId}")
         }
+    }
+
+    fun unsnooze() {
+        alarm.value!!.isSnoozed = false
     }
 
     @AssistedInject.Factory
     interface Factory {
-        fun create(alarmId: Int): AlarmDetailsViewModel
+        fun create(alarmId: Long): AlarmDetailsViewModel
     }
 
     companion object {
         fun provideFactory(
             factory: Factory,
-            alarmId: Int
+            alarmId: Long
         ): ViewModelProvider.Factory =
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {

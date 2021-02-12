@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.ActivityNavigator
 import androidx.navigation.fragment.findNavController
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_upcoming_alarm.*
 import me.kennyvaldivia.riway.BaseView
 import me.kennyvaldivia.riway.MainActivity
@@ -65,14 +66,15 @@ class UpcomingAlarmFragment : Fragment(), BaseView {
     override fun onResume() {
         super.onResume()
         viewLifecycleOwner?.let { viewModel.bind(it) }
+
         viewModel.alarmTime.observe(viewLifecycleOwner, Observer {
             if (it != null)
                 tv_upcoming_alarm_time.text = it
         })
         viewModel.state.observe(viewLifecycleOwner, Observer {
             when (it) {
-                UpcomingAlarmViewModel.State.UPCOMING_ALARM_AVAILABLE -> displaySummary()
-                UpcomingAlarmViewModel.State.NO_UPCOMING_ALARMS -> displayHelp()
+                UpcomingAlarmViewModel.State.UPCOMING_ALARM_AVAILABLE -> state.value = it
+                UpcomingAlarmViewModel.State.NO_UPCOMING_ALARMS -> state.value = it
             }
         })
         state.observe(viewLifecycleOwner, Observer {
@@ -102,11 +104,11 @@ class UpcomingAlarmFragment : Fragment(), BaseView {
     }
 
     private fun snoozeAlarm() {
-        viewModel.snoozeAlarm().observe(viewLifecycleOwner, Observer {
+        viewModel.snoozeAlarm().invokeOnCompletion {
             val toast: Toast? =
                 Toast.makeText(activity, R.string.snoozed_alarm_successfully, Toast.LENGTH_LONG)
             toast!!.show()
-        })
+        }
     }
 
     private fun createAlarm() {

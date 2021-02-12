@@ -14,6 +14,7 @@ data class Alarm(
     @ColumnInfo(name = "song_uri") var songUri: String? = null,
     @ColumnInfo(name = "label") var label: String? = null,
     @ColumnInfo(name = "is_active") var isActive: Boolean? = true,
+    @ColumnInfo(name = "is_snoozed") var isSnoozed: Boolean? = false,
     @ColumnInfo(name = "should_vibrate") var shouldVibrate: Boolean? = true,
     @ColumnInfo(name = "monday", defaultValue = "0") var monday: Boolean? = true,
     @ColumnInfo(name = "tuesday", defaultValue = "0") var tuesday: Boolean? = true,

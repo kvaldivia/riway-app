@@ -259,6 +259,18 @@
         app:srcCompat="@drawable/ic_alarm_off_48px" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_unsnooze_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:visibility="gone"
+        style="@style/AppTheme.Widget.Design.FloatingActionButton"
+        app:layout_anchor="@+id/alarm_detail_container"
+        app:layout_anchorGravity="top|end"
+        app:srcCompat="@drawable/ic_activate_alarm_24dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_create_alarm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

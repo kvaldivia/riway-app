@@ -28,8 +28,8 @@
 
                 <argument
                     android:name="alarmId"
-                    app:argType="integer"
-                    android:defaultValue="0"
+                    app:argType="long"
+                    android:defaultValue="0L"
                     />
             </action>
         </fragment>

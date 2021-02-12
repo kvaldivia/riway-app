@@ -34,14 +34,10 @@ class MainActivity : AppCompatActivity() {
             fab_alarm_summary.hide()
             when (it) {
                 UpcomingAlarmViewModel.State.UPCOMING_ALARM_AVAILABLE -> {
-                    fab_alarm_summary.setImageResource(
-                        R.drawable.ic_alarm_off_48px
-                    )
+                    setDefaultActionSnooze()
                 }
                 UpcomingAlarmViewModel.State.NO_UPCOMING_ALARMS -> {
-                    fab_alarm_summary.setImageResource(
-                        R.drawable.ic_baseline_add_24
-                    )
+                    setDefaultActionCreate()
                 }
             }
             fab_alarm_summary.show()
@@ -53,5 +49,17 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.fragment_main_content) as NavHostFragment
         val baseView = navHostFragment.childFragmentManager.fragments.first() as BaseView
         baseView.suggestedAction()
+    }
+
+    private fun setDefaultActionCreate() {
+        fab_alarm_summary.hide()
+        fab_alarm_summary.setImageResource(R.drawable.ic_baseline_add_24)
+        fab_alarm_summary.show()
+    }
+
+    private fun setDefaultActionSnooze() {
+        fab_alarm_summary.hide()
+        fab_alarm_summary.setImageResource(R.drawable.ic_alarm_off_48px)
+        fab_alarm_summary.show()
     }
 }

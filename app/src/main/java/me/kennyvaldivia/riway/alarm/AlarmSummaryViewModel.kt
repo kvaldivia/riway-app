@@ -1,6 +1,9 @@
 package me.kennyvaldivia.riway.alarm
 
 import androidx.lifecycle.*
+import io.reactivex.Completable
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -17,15 +20,20 @@ class UpcomingAlarmViewModel @Inject constructor(var alarmRepository: AlarmRepos
 
     private val currentAlarm: MutableLiveData<Alarm?> = MutableLiveData<Alarm?>(null)
 
+    private lateinit var owner: LifecycleOwner
+
     val alarmTime = MutableLiveData<String?>()
     val state = MutableLiveData<State>(State.NO_UPCOMING_ALARMS)
 
     fun bind(owner: LifecycleOwner) {
+        this.owner = owner
         alarmRepository.getUpcomingAlarm().observe(owner, Observer {
             MutableLiveData<Alarm?>(it).also { alarm -> currentAlarm.value = alarm.value }
         })
         currentAlarm.observe(owner, Observer {
-            if (it != null) {
+            // FIXME: the query checks this already, so... if we get an instance it should be
+            // in the state of active and unsnoozed
+            if (it != null && it.isActive == true && it.isSnoozed == false) {
                 alarmTime.value = it.time
                 state.value = State.UPCOMING_ALARM_AVAILABLE
             } else {
@@ -34,11 +42,17 @@ class UpcomingAlarmViewModel @Inject constructor(var alarmRepository: AlarmRepos
         })
     }
 
-    override fun snoozeAlarm(): LiveData<Int> {
+    override fun snoozeAlarm(): CompletableDeferred<Int> {
         val alarm = currentAlarm.value!!.copy()
-        alarm.isActive = false
-        return MutableLiveData<Int>(alarmRepository.update(alarm).also {
-            currentAlarm.value = alarmRepository.getUpcomingAlarm().value
-        })
+        alarm.isSnoozed = true
+        val completed = CompletableDeferred<Int>()
+        viewModelScope.launch {
+            val id = alarmRepository.update(alarm)
+            alarmRepository.getAlarm(id.toLong()).observe(owner, Observer {
+                currentAlarm.value = it
+            })
+            completed.complete(id)
+        }
+        return completed
     }
 }

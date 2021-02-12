@@ -15,17 +15,17 @@ interface AlarmDao {
     fun loadAllByIds(ids: List<Int>): LiveData<List<Alarm?>?>
 
     @Query( "select * from alarm where id=:id")
-    fun get(id: Int): LiveData<Alarm?>
+    fun get(id: Long): LiveData<Alarm?>
 
-    @Query("select * from alarm limit 1")
+    @Query("select * from alarm where is_active=1 and is_snoozed=0 limit 1")
     fun getUpcomingAlarm(): LiveData<Alarm?>
 
     @Insert(entity = Alarm::class, onConflict = OnConflictStrategy.ABORT)
-    suspend fun create(alarm: Alarm)
+    suspend fun create(alarm: Alarm): Long
 
     @Insert
     suspend fun insertAll(vararg alarms: Alarm)
 
     @Update
-    fun update(alarm: Alarm): Int
+    suspend fun update(alarm: Alarm): Int
 }
